@@ -8,6 +8,7 @@ import Films from './components/Films';
 import Character from './components/Character'
 import { getFilmsList } from './actions/filmsactions';
 import { getCharactersList } from './actions/charactersactions';
+import Favourites from './components/Favourites';
 
 class App extends Component {
 
@@ -22,6 +23,7 @@ class App extends Component {
             <Header />
             <Route exact path="/" component={ Films } />
             <Route exact path="/characters/:id/" component={ Character } />
+            <Route path="/favourites" component={ Favourites } />
           </div>
       
         </Router>

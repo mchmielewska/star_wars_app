@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { likeFilm } from '../actions/favouritesactions';
 
 class Films extends Component {
 
@@ -20,6 +21,11 @@ class Films extends Component {
     }
 
     render() {
+
+        const handleLike = (e, film) => {
+            e.preventDefault();
+            this.props.likeFilm(film);
+        }
 
         const films = this.props.films;
         const imgSource = [
@@ -95,7 +101,7 @@ class Films extends Component {
             return charactersLinks;
         }
 
-        let charactersLinks = charactersList ? ( charactersList ) : ( <div>Loading data...</div>)
+        let charactersLinks = charactersList.length ? ( charactersList ) : ( <div>Loading data...</div>)
 
         
         return (
@@ -105,6 +111,7 @@ class Films extends Component {
                         
                         <li key={film.title}> 
                             <h5><button onClick={ (e) => this.handleClick(e, film.episode_id)}>{ film.title }</button></h5>
+                            <button onClick={ (e) => handleLike(e, film)}>Like!</button>
                             <div className="film-details hidden" id={film.episode_id}>
                                 <img className="poster" alt={film.title} src={ imgSource.find(el => film.episode_id === el.episodeId).img } ></img>
                                 <p>{ film.episode_id}</p>
@@ -124,6 +131,13 @@ class Films extends Component {
 }
 
 
-const mapStateToProps = ({ films, characters }) => ({ films, characters })
+const mapStateToProps = ({ films, characters, favourites }) => ({ films, characters, favourites })
 
-export default connect(mapStateToProps)(Films);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        likeFilm: (film) => dispatch(likeFilm(film))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Films);

@@ -25,54 +25,6 @@ export const getCharactersList = () => dispatch => {
             })
         })
     })
-    
-
-
-
-
-    // let getDataForPage = function(result, page) {
-    //     if (page === null)
-    //         return;
-
-        
-        
-    //     axios.get(page).then(
-    //         res => {
-    //             result.push(res.data);
-    //             const next = res.data.next
-    //             const index = toDoList.indexOf(page);
-    //             toDoList.splice(index, 1);
-    //             return next;
-    //         }).then(next => { 
-    //             getDataForPage(result, next) 
-    //             if (toDoList.length === 0) {
-    //                 let finalResult = result.reduce( (acc, dataPayload) => acc.concat(dataPayload.results), [])
-    //                 dispatch({
-    //                     type: GET_CHARACTERS,
-    //                     payload: finalResult
-    //                 })
-    //             }
-    //         }).catch(err => {
-    //             console.log("costam costam", err);
-    //         })
-    // }
-
-    // getDataForPage(result, "https://swapi.dev/api/people/?page=1");
-
-    // axios.get('https://swapi.dev/api/people/')
-    //         .then(
-    //             res => {
-    //             dispatch({
-    //                 type: GET_CHARACTERS,
-    //                 payload: res.data
-    //             });
-    //         })
-    //         .catch(err => {
-    //             // dispatch({
-    //             //     type: GET_ERRORS,
-    //             //     payload: err.res
-    //             // });
-    //         });
 }
 
 export const getCharacter = (id) => dispatch => {
