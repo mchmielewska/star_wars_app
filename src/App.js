@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Header from './components/Header'
+import Films from './components/Films';
+import Character from './components/Character'
+import { getFilmsList } from './actions/filmsactions';
+import { getCharactersList } from './actions/charactersactions';
+
+class App extends Component {
+
+  render() {
+    store.dispatch(getFilmsList());
+    store.dispatch(getCharactersList());
+    return (
+      <Provider store={store}>
+        <Router>
+          
+          <div className="container">
+            <Header />
+            <Route exact path="/" component={ Films } />
+            <Route exact path="/characters/:id/" component={ Character } />
+          </div>
+      
+        </Router>
+
+      </Provider>
+    )
+  }
 }
 
 export default App;
