@@ -68,7 +68,7 @@ class Film extends Component {
                                 <p><span className="details-name">Producer: </span>{film.producer}</p>
                                 <span className="details-name">Openining crawl: </span><pre><code>{film.opening_crawl}</code></pre>
                                 <span className="details-name">List of the characters:</span>
-                                <ul>{charactersLinks(film.characters, charactersNames)}</ul>
+                                <ul className="characters-list">{charactersLinks(film.characters, charactersNames)}</ul>
                             </div>
                             <button className="button grey" onClick={() => { this.props.history.goBack()}}><i className="material-icons">keyboard_arrow_left</i>Back</button>
             </div>
