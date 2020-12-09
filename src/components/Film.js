@@ -2,20 +2,40 @@ import React, { Component } from 'react';
 import { imgSource } from '../utils/images'
 import { connect } from 'react-redux';
 import { getFilm } from '../actions/filmsactions';
-import { likeFilm } from '../actions/favouritesactions';
+import { getCharactersList } from '../actions/charactersactions';
+import { likeFilm, unlikeFilm } from '../actions/favouritesactions';
 import { charactersLinks } from '../utils/characterslinks';
 
 class Film extends Component {
 
     render() {
 
+        const favourites = this.props.favourites;
+
+        const actionButton = film => {
+            if (favourites.films.includes(film)) {
+                return (
+                    <button className="like" onClick={(e) => handleUnlike(e, film)}><i className="material-icons">favorite</i></button>
+                )        
+            } else {
+                return (
+                    <button className="unlike" onClick={(e) => handleLike(e, film)}><i className="material-icons">favorite_border</i></button>
+                )
+            }
+        }
+
         const handleLike = (e, film) => {
             e.preventDefault();
             this.props.likeFilm(film);
         }
 
+        const handleUnlike = (e, film) => {
+            e.preventDefault();
+            this.props.unlikeFilm(film);
+        }
+
         const film = this.props.currentFilm;
-        const allCharacters = this.props.characters
+        const allCharacters = this.props.characters;
 
         const charactersNames = allCharacters.map(character => {
             let charUrl = character.url;
@@ -30,35 +50,52 @@ class Film extends Component {
         }
         )
 
-        return (
-            <div>
-                            <h5>{film.title}</h5>
-                            <button onClick={(e) => handleLike(e, film)}>Like!</button>
-                            <div className="film-details" id={film.episode_id}>
-                                <img className="poster" alt={film.title} src={imgSource.find(el => film.episode_id === el.episodeId).img} ></img>
-                                <p>{film.episode_id}</p>
-                                <p>{film.release_date}</p>
-                                <p>{film.director}</p>
-                                <p>{film.producer}</p>
-                                <p>{film.opening_crawl}</p>
+        const imgSrc = (film) => {
+            const imgElement = imgSource.find(el => film.episode_id === el.episodeId);
+            const src = imgElement.img
+            return src
+        }
+
+        const filmData = film !== undefined ? (
+            <div className="container">
+                            <h4>{film.title} { actionButton(film) }</h4>
+                            
+                            <img className="poster" alt={film.title} src={ imgSrc(film) } ></img>
+                            <div className="details" id={film.episode_id}>
+                                <p><span className="details-name">Episode: </span>{film.episode_id}</p>
+                                <p><span className="details-name">Release date: </span>{film.release_date}</p>
+                                <p><span className="details-name">Director: </span>{film.director}</p>
+                                <p><span className="details-name">Producer: </span>{film.producer}</p>
+                                <span className="details-name">Openining crawl: </span><pre><code>{film.opening_crawl}</code></pre>
+                                <span className="details-name">List of the characters:</span>
                                 <ul>{charactersLinks(film.characters, charactersNames)}</ul>
                             </div>
+                            <button className="button grey" onClick={() => { this.props.history.goBack()}}><i className="material-icons">keyboard_arrow_left</i>Back</button>
             </div>
+        ) : ( 
+            <div className="container-loading">
+                Loading data...
+            </div>
+            )
 
-        )
-    }
-
+            return ( 
+                <div>
+                    { filmData }
+                </div>
+            )
 }
-
+}
 
 const mapStateToProps= (state, ownProps) => {
     let id = ownProps.match.params.id; 
     
-    if (state.characters.length === 0) {
+    if (state.films.length === 0) {
         getFilm(id);
+        getCharactersList();
         return {
             currentFilm: state.films,
-            favourites: state.favourites
+            favourites: state.favourites,
+            characters: state.characters
         }
     } else {
         return {
@@ -72,7 +109,9 @@ const mapStateToProps= (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        likeFilm: (film) => dispatch(likeFilm(film))
+        getFilm: (id) => dispatch(getFilm(id)),
+        likeFilm: (film) => dispatch(likeFilm(film)),
+        unlikeFilm: (film) => dispatch(unlikeFilm(film))
     }
 }
 

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './store'
+import { store, persistor } from './store'
+import { PersistGate } from 'redux-persist/integration/react'
 
 import Header from './components/Header'
 import Films from './components/Films';
@@ -17,18 +18,21 @@ class App extends Component {
     store.dispatch(getCharactersList());
     return (
       <Provider store={store}>
+        <PersistGate loading={null} persistor={ persistor }>
         <Router>
           
           <div>
             <Header />
+            <div className="content">
             <Route exact path="/" component={ Films } />
             <Route exact path="/characters/:id/" component={ Character } />
             <Route exact path="/films/:id/" component={ Film } />
             <Route path="/favourites" component={ Favourites } />
+            </div>
           </div>
       
         </Router>
-
+      </PersistGate>
       </Provider>
     )
   }

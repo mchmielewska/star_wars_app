@@ -25,7 +25,7 @@ export function charactersLinks(characters, charactersNames) {
         const charactersLinks = charactersArray.map(character => {
             return (
                 <li key={character.name}>
-                    <Link
+                    <Link className="character" 
                         to={{
                             pathname: `/characters/${character.id}`
                         }}>

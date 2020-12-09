@@ -9,37 +9,38 @@ class Films extends Component {
         const films = this.props.films;
 
         function filmsLinks(films) {
-            if (!films) {
+            if (films === undefined || films.length === 0) {
                 return (
-                    <div>Loading data...</div>
+                    <div className="container-loading">Loading data...</div>
                 )
             } else {
-                const charactersLinks = films.map(film => {
+                const filmsLinks = films.map(film => {
                     let charUrl = film.url;
                     let tmp = charUrl.substr(charUrl.length - 2);
                     let id = (tmp.replace('/', ''))
                     return (
-                        <li className="film-link" key={film.episode_id} style={{
+                        <div key={id}>
+                            <Link className="film-link" style={{
                             background: `url(${imgSource.find(el => film.episode_id === el.episodeId).img}) no-repeat 25% 25%`,
-                          }}>
-                            <Link 
+                          }}
                                 to={{
                                     pathname: `/films/${id}`
                                 }}>
-                                {film.title}</Link>
-                        </li>)
+                                <div className="film-title">{film.title}</div>
+                                </Link>
+                        </div>)
                 })
 
-                return charactersLinks;
+                return filmsLinks;
             }
         }
 
 
         return (
             <div className="center-align">
-                <ul className="films-list">
+                <div className="films-list">
                     { filmsLinks(films) }
-                </ul>
+                </div>
             </div>
 
         )

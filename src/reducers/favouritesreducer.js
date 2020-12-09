@@ -1,6 +1,7 @@
 const LIKE_CHARACTER = 'LIKE_CHARACTER'
 const LIKE_FILM = 'LIKE_FILM'
-const REMOVE_LIKE = 'REMOVE_LIKE'
+const UNLIKE_FILM = 'UNLIKE_FILM'
+const UNLIKE_CHARACTER = 'UNLIKE_CHARACTER'
 
 const initialState = {
     characters: [],
@@ -19,8 +20,23 @@ export default function (state = initialState, action ) {
                 ...state,
                 films: [...state.films, action.payload]
             }
-        case REMOVE_LIKE:
-            return state       
+        case UNLIKE_FILM:
+            const title = action.payload.title;
+            console.log(title)
+            let filteredFilms = (state.films).filter(e => e.title !== title)
+            console.log(filteredFilms)
+            return {
+                ...state,
+                films: filteredFilms
+            }
+        case UNLIKE_CHARACTER:
+            const name = action.payload.name;
+            let filteredCharacters = (state.characters).filter(e => e.name !== name)
+            console.log(filteredCharacters)
+            return {
+                ...state,
+                characters: filteredCharacters
+            }       
        default:
            return state
     }

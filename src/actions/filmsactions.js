@@ -24,6 +24,7 @@ export const getFilm = (id) => dispatch => {
     axios.get(`https://swapi.dev/api/films/${id}`)
             .then(
                 res => {
+                    console.log(res)
                 dispatch({
                     type: GET_FILM,
                     payload: res.data
