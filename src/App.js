@@ -5,11 +5,11 @@ import store from './store'
 
 import Header from './components/Header'
 import Films from './components/Films';
+import Film from './components/Film';
 import Character from './components/Character'
 import { getFilmsList } from './actions/filmsactions';
 import { getCharactersList } from './actions/charactersactions';
 import Favourites from './components/Favourites';
-
 class App extends Component {
 
   render() {
@@ -19,10 +19,11 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           
-          <div className="container">
+          <div>
             <Header />
             <Route exact path="/" component={ Films } />
             <Route exact path="/characters/:id/" component={ Character } />
+            <Route exact path="/films/:id/" component={ Film } />
             <Route path="/favourites" component={ Favourites } />
           </div>
       

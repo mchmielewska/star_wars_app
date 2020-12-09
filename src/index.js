@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import '../node_modules/milligram/dist/milligram.css'
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
