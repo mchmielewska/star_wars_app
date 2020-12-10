@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { unlikeCharacter, unlikeFilm } from '../actions/favouritesactions';
+import { unlikeCharacter, unlikeFilm } from '../actions/favouritesActions';
 import { Link } from 'react-router-dom';
 class Favourites extends Component {
     render() {
 
-        const handleUnlikeFilm = (e, film) => {
+        const favouritedFilms = this.props.favourites.films;
+        const favouritedCharacters = this.props.favourites.characters;
+
+        const handleUnlikeFilm = (e, film, favouritedFilms) => {
             e.preventDefault();
-            this.props.unlikeFilm(film);
+            this.props.unlikeFilm(film, favouritedFilms);
         }
 
-        const handleUnlikeCharacter = (e, character) => {
+        const handleUnlikeCharacter = (e, character, allCharacters) => {
             e.preventDefault();
-            this.props.unlikeCharacter(character);
+            this.props.unlikeCharacter(character, favouritedCharacters);
         }
 
         function filmsLinks(films) {
@@ -26,7 +29,7 @@ class Favourites extends Component {
                     return (
                         <li key={film.title}>
                             <Link to={{ pathname: `/films/${id}` }}> {film.title} </Link>
-                            <button className="like" onClick={(e) => handleUnlikeFilm(e, film)}><i className="material-icons">delete</i></button>
+                            <button className="like" onClick={(e) => handleUnlikeFilm(e, film, favouritedFilms)}><i className="material-icons">delete</i></button>
                         </li>
                     )
                 })
@@ -34,6 +37,8 @@ class Favourites extends Component {
                 return filmsLinks;
             }
         }
+
+        console.log('Favs', this.props.favourites)
 
         const films = filmsLinks(this.props.favourites.films)
 
@@ -49,7 +54,7 @@ class Favourites extends Component {
                     return (
                         <li key={character.name}>
                             <Link to={{ pathname: `/characters/${id}` }}> {character.name} </Link>
-                            <button className="like" onClick={(e) => handleUnlikeCharacter(e, character)}><i className="material-icons">delete</i></button>
+                            <button className="like" onClick={(e) => handleUnlikeCharacter(e, character, favouritedCharacters)}><i className="material-icons">delete</i></button>
                         </li>
                     )
                 })
@@ -75,8 +80,8 @@ const mapStateToProps = ({ favourites }) => ({ favourites })
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        unlikeFilm: (film) => dispatch(unlikeFilm(film)),
-        unlikeCharacter: (character) => dispatch(unlikeCharacter(character))
+        unlikeFilm: (film, favouritedFilms) => dispatch(unlikeFilm(film, favouritedFilms)),
+        unlikeCharacter: (character, favouritedCharacters) => dispatch(unlikeCharacter(character, favouritedCharacters))
     }
 }
 

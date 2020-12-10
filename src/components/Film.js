@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { imgSource } from '../utils/images'
 import { connect } from 'react-redux';
-import { getFilm } from '../actions/filmsactions';
-import { getCharactersList } from '../actions/charactersactions';
-import { likeFilm, unlikeFilm } from '../actions/favouritesactions';
-import { charactersLinks } from '../utils/characterslinks';
+import { getFilm, getFilmsList } from '../actions/filmsActions';
+import { getCharactersList } from '../actions/charactersActions';
+import { likeFilm, unlikeFilm } from '../actions/favouritesActions';
+import { charactersLinks } from '../utils/charactersLinks';
 
 class Film extends Component {
 
     render() {
 
         const favourites = this.props.favourites;
+        const favouritedFilms = favourites.films;
 
         const actionButton = film => {
             if (favourites.films.includes(film)) {
                 return (
-                    <button className="like" onClick={(e) => handleUnlike(e, film)}><i className="material-icons">favorite</i></button>
+                    <button className="like" onClick={(e) => handleUnlike(e, film, favouritedFilms)}><i className="material-icons">favorite</i></button>
                 )
             } else {
                 return (
@@ -29,9 +30,9 @@ class Film extends Component {
             this.props.likeFilm(film);
         }
 
-        const handleUnlike = (e, film) => {
+        const handleUnlike = (e, film, favouritedFilms) => {
             e.preventDefault();
-            this.props.unlikeFilm(film);
+            this.props.unlikeFilm(film, favouritedFilms);
         }
 
         const film = this.props.currentFilm;
@@ -56,7 +57,7 @@ class Film extends Component {
             return src
         }
 
-        const filmData = film !== undefined ? (
+        const filmData = film.length !== 0 ? (
             <div className="container">
                 <h4>{film.title} {actionButton(film)}</h4>
 
@@ -80,7 +81,7 @@ class Film extends Component {
 
         return (
             <div>
-                { filmData}
+                { filmData }
             </div>
         )
     }
@@ -91,17 +92,20 @@ const mapStateToProps = (state, ownProps) => {
 
     if (state.films.length === 0) {
         getFilm(id);
+        getFilmsList();
         getCharactersList();
         return {
             currentFilm: state.films,
             favourites: state.favourites,
-            characters: state.characters
+            characters: state.characters,
+            films: state.films
         }
     } else {
         return {
             currentFilm: state.films.find(film => (((film.url).substr(film.url.length - 3)).replace('/', '')).replace('/', '') === id),
             characters: state.characters,
-            favourites: state.favourites
+            favourites: state.favourites,
+            films: state.films
         }
     }
 }
@@ -111,7 +115,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getFilm: (id) => dispatch(getFilm(id)),
         likeFilm: (film) => dispatch(likeFilm(film)),
-        unlikeFilm: (film) => dispatch(unlikeFilm(film))
+        unlikeFilm: (film, favouritedFilms) => dispatch(unlikeFilm(film, favouritedFilms))
     }
 }
 

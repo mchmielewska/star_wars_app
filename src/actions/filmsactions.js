@@ -1,13 +1,14 @@
 import axios from 'axios';
-import { GET_FILM, GET_FILMS, GET_ERRORS } from '../types';
+import { GET_FILM, GET_FILMS, GET_ERRORS } from './types';
 
-export const getFilmsList = () => dispatch => {
-    axios.get('https://swapi.dev/api/films/')
+export function getFilmsList() {
+    return (dispatch) => {
+        return axios.get('https://swapi.dev/api/films/')
         .then(
             res => {
                 dispatch({
                     type: GET_FILMS,
-                    payload: res.data
+                    payload: res.data.results
                 });
             })
         .catch(err => {
@@ -16,7 +17,7 @@ export const getFilmsList = () => dispatch => {
                 error: err
             });
         });
-}
+}}
 
 export const getFilm = (id) => dispatch => {
     axios.get(`https://swapi.dev/api/films/${id}`)
@@ -25,7 +26,7 @@ export const getFilm = (id) => dispatch => {
                 console.log(res)
                 dispatch({
                     type: GET_FILM,
-                    payload: res.data
+                    payload: res.data.results
                 });
             })
         .catch(err => {

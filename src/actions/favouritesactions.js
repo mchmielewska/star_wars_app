@@ -1,4 +1,4 @@
-import { LIKE_CHARACTER, UNLIKE_CHARACTER, LIKE_FILM, UNLIKE_FILM } from '../types';
+import { LIKE_CHARACTER, UNLIKE_CHARACTER, LIKE_FILM, UNLIKE_FILM } from './types';
 
 export const likeCharacter = (item) => dispatch => {
     dispatch({
@@ -14,16 +14,20 @@ export const likeFilm = (item) => dispatch => {
     })
 }
 
-export const unlikeFilm = (item) => dispatch => {
+export const unlikeFilm = (item, all) => dispatch => {
+    const title = item.title;
+    let filteredFilms = all.filter(e => e.title !== title)
     dispatch({
         type: UNLIKE_FILM,
-        payload: item
+        payload: filteredFilms
     })
 }
 
-export const unlikeCharacter = (item) => dispatch => {
+export const unlikeCharacter = (item, all) => dispatch => {
+    const name = item.name;
+    let filteredCharacters = all.filter(e => e.name !== name)
     dispatch({
         type: UNLIKE_CHARACTER,
-        payload: item
+        payload: filteredCharacters
     })
 }

@@ -1,4 +1,4 @@
-import { LIKE_CHARACTER, LIKE_FILM, UNLIKE_FILM, UNLIKE_CHARACTER } from '../types';
+import { LIKE_CHARACTER, LIKE_FILM, UNLIKE_FILM, UNLIKE_CHARACTER } from '../actions/types';
 
 const initialState = {
     characters: [],
@@ -18,21 +18,14 @@ export default function (state = initialState, action) {
                 films: [...state.films, action.payload]
             }
         case UNLIKE_FILM:
-            const title = action.payload.title;
-            console.log(title)
-            let filteredFilms = (state.films).filter(e => e.title !== title)
-            console.log(filteredFilms)
             return {
                 ...state,
-                films: filteredFilms
+                films: action.payload
             }
         case UNLIKE_CHARACTER:
-            const name = action.payload.name;
-            let filteredCharacters = (state.characters).filter(e => e.name !== name)
-            console.log(filteredCharacters)
             return {
                 ...state,
-                characters: filteredCharacters
+                characters: action.payload
             }
         default:
             return state

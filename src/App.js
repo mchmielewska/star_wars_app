@@ -9,8 +9,8 @@ import Films from './components/Films';
 import Film from './components/Film';
 import Error from './components/Error'
 import Character from './components/Character'
-import { getFilmsList } from './actions/filmsactions';
-import { getCharactersList } from './actions/charactersactions';
+import { getFilmsList } from './actions/filmsActions';
+import { getCharactersList } from './actions/charactersActions';
 import Favourites from './components/Favourites';
 class App extends Component {
 

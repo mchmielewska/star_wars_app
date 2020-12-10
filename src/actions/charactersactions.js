@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_CHARACTER, GET_CHARACTERS, GET_ERRORS } from '../types'
+import { GET_CHARACTER, GET_CHARACTERS, GET_ERRORS } from './types'
 
 export const getCharactersList = () => dispatch => {
     let pageSize = 10;

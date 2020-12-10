@@ -5,8 +5,6 @@ class Error extends Component {
 
     render() {
         const errors = this.props.errors;
-
-        console.log(errors)
         const errorMessage = errors.error ? (
             <div id="error">
                 Error fetching data, please reload the page.

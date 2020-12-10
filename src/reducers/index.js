@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
-import filmsreducer from './filmsreducer';
-import charactersreducer from './charactersreducer';
-import favouritesreducer from './favouritesreducer';
-import errorsreducer from './errorsreducer';
+import filmsReducer from './filmsReducer';
+import charactersReducer from './charactersReducer';
+import favouritesReducer from './favouritesReducer';
+import errorsReducer from './errorsReducer';
 
 export default combineReducers({
-    films: filmsreducer,
-    characters: charactersreducer,
-    favourites: favouritesreducer,
-    errors: errorsreducer
+    films: filmsReducer,
+    characters: charactersReducer,
+    favourites: favouritesReducer,
+    errors: errorsReducer
 });

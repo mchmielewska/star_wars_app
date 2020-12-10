@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCharacter } from '../actions/charactersactions';
-import { likeCharacter } from '../actions/favouritesactions';
+import { getCharacter } from '../actions/charactersActions';
+import { likeCharacter, unlikeCharacter, unlikeFilm } from '../actions/favouritesActions';
 import { imgSourceCharacters } from '../utils/images'
 
 class Character extends Component {
 
     render() {
         const character = this.props.currentCharacter;
-        const favourites = this.props.favourites
+        const favourites = this.props.favourites;
+        const favouritedCharacters = favourites.characters;
 
         const actionButton = character => {
             if (favourites.characters.includes(character)) {
                 return (
-                    <button className="like" onClick={(e) => handleUnlike(e, character)}><i className="material-icons">favorite</i></button>
+                    <button className="like" onClick={(e) => handleUnlike(e, character, favouritedCharacters)}><i className="material-icons">favorite</i></button>
                 )
             } else {
                 return (
@@ -27,15 +28,24 @@ class Character extends Component {
             this.props.likeCharacter(character);
         }
 
-        const handleUnlike = (e, character) => {
+        const handleUnlike = (e, character, favouritedCharacters) => {
             e.preventDefault();
-            this.props.unlikeCharacter(character);
+            this.props.unlikeCharacter(character, favouritedCharacters);
         }
 
-        const imgSrc = (character) => {
-            const imgElement = (imgSourceCharacters.find(el => character.name === el.name));
-            const src = imgElement.img
-            return src
+        const characterImage = (character) => {
+            if (character.length === 0) {
+                return (
+                    <p>Loading image...</p>
+                )
+            } else { 
+                const imgElement = (imgSourceCharacters.find(el => character.name === el.name));
+                const src = imgElement.img;
+
+                return (
+                    <img className="poster" alt={character.name} src={ src } ></img>
+                )
+             }
         }
 
 
@@ -43,7 +53,7 @@ class Character extends Component {
             <div className="container">
                 <button className="button" onClick={() => { this.props.history.goBack() }}><i className="material-icons">keyboard_arrow_left</i>Back</button>
                 <h3>{character.name} {actionButton(character)}</h3>
-                <img className="poster" alt={character.name} src={imgSrc(character)} ></img>
+                { characterImage(character) }
                 <div className="details">
                     <p><span className="details-name">birth year:</span> {character.birth_year}</p>
                     <p><span className="details-name">eye color:</span> {character.eye_color}</p>
@@ -56,7 +66,7 @@ class Character extends Component {
 
         return (
             <div>
-                { characterData}
+                { characterData }
             </div>
         )
 
@@ -65,7 +75,6 @@ class Character extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     let id = ownProps.match.params.id;
-
     if (state.characters.length === 0) {
         getCharacter(id);
         return {
@@ -82,7 +91,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        likeCharacter: (character) => dispatch(likeCharacter(character))
+        likeCharacter: (character) => dispatch(likeCharacter(character)),
+        unlikeCharacter: (character, favouritedCharacters) => dispatch(unlikeCharacter(character, favouritedCharacters))
     }
 }
 
