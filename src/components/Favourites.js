@@ -17,7 +17,7 @@ class Favourites extends Component {
 
         function filmsLinks(films) {
             if (films === undefined || films.length === 0) {
-                return 
+                return
             } else {
                 const filmsLinks = films.map(film => {
                     let charUrl = film.url;
@@ -25,11 +25,11 @@ class Favourites extends Component {
                     let id = (tmp.replace('/', ''))
                     return (
                         <li key={film.title}>
-                            <Link to={{ pathname: `/films/${id}`}}> {film.title} </Link>
+                            <Link to={{ pathname: `/films/${id}` }}> {film.title} </Link>
                             <button className="like" onClick={(e) => handleUnlikeFilm(e, film)}><i className="material-icons">delete</i></button>
                         </li>
-                        )
-                    })
+                    )
+                })
 
                 return filmsLinks;
             }
@@ -39,7 +39,7 @@ class Favourites extends Component {
 
         function charactersLinks(characters) {
             if (characters === undefined || characters.length === 0) {
-                return 
+                return
             } else {
                 const charactersLinks = characters.map(character => {
                     let charUrl = character.url;
@@ -48,11 +48,11 @@ class Favourites extends Component {
                     console.log(id)
                     return (
                         <li key={character.name}>
-                            <Link to={{ pathname: `/characters/${id}`}}> {character.name} </Link>
+                            <Link to={{ pathname: `/characters/${id}` }}> {character.name} </Link>
                             <button className="like" onClick={(e) => handleUnlikeCharacter(e, character)}><i className="material-icons">delete</i></button>
                         </li>
-                        )
-                    })
+                    )
+                })
 
                 return charactersLinks;
             }
@@ -63,9 +63,9 @@ class Favourites extends Component {
         return (
             <div className="favourites container">
                 <h4>Films:</h4>
-                <ul>{ films }</ul>
+                <ul>{films}</ul>
                 <h4>Characters:</h4>
-                <ul>{ characters }</ul>
+                <ul>{characters}</ul>
             </div>
         )
     }

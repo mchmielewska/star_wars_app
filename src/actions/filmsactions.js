@@ -1,39 +1,37 @@
 import axios from 'axios';
-
-const GET_FILMS = 'GET_FILMS';
-const GET_FILM = 'GET_FILM';
+import { GET_FILM, GET_FILMS, GET_ERRORS } from '../types';
 
 export const getFilmsList = () => dispatch => {
     axios.get('https://swapi.dev/api/films/')
-            .then(
-                res => {
+        .then(
+            res => {
                 dispatch({
                     type: GET_FILMS,
                     payload: res.data
                 });
             })
-            .catch(err => {
-                // dispatch({
-                //     type: GET_ERRORS,
-                //     payload: err.res
-                // });
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                error: err
             });
+        });
 }
 
 export const getFilm = (id) => dispatch => {
     axios.get(`https://swapi.dev/api/films/${id}`)
-            .then(
-                res => {
-                    console.log(res)
+        .then(
+            res => {
+                console.log(res)
                 dispatch({
                     type: GET_FILM,
                     payload: res.data
                 });
             })
-            .catch(err => {
-                // dispatch({
-                //     type: GET_ERRORS,
-                //     payload: err.res
-                // });
+        .catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                error: err
             });
+        });
 }

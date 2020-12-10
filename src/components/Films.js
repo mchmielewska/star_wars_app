@@ -21,13 +21,13 @@ class Films extends Component {
                     return (
                         <div key={id}>
                             <Link className="film-link" style={{
-                            background: `url(${imgSource.find(el => film.episode_id === el.episodeId).img}) no-repeat 25% 25%`,
-                          }}
+                                background: `url(${imgSource.find(el => film.episode_id === el.episodeId).img}) no-repeat 25% 25%`,
+                            }}
                                 to={{
                                     pathname: `/films/${id}`
                                 }}>
                                 <div className="film-title">{film.title}</div>
-                                </Link>
+                            </Link>
                         </div>)
                 })
 
@@ -39,7 +39,7 @@ class Films extends Component {
         return (
             <div className="center-align">
                 <div className="films-list">
-                    { filmsLinks(films) }
+                    {filmsLinks(films)}
                 </div>
             </div>
 

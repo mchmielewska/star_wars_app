@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import Header from './components/Header'
 import Films from './components/Films';
 import Film from './components/Film';
+import Error from './components/Error'
 import Character from './components/Character'
 import { getFilmsList } from './actions/filmsactions';
 import { getCharactersList } from './actions/charactersactions';
@@ -18,21 +19,22 @@ class App extends Component {
     store.dispatch(getCharactersList());
     return (
       <Provider store={store}>
-        <PersistGate loading={null} persistor={ persistor }>
-        <Router>
-          
-          <div>
-            <Header />
-            <div className="content">
-            <Route exact path="/" component={ Films } />
-            <Route exact path="/characters/:id/" component={ Character } />
-            <Route exact path="/films/:id/" component={ Film } />
-            <Route path="/favourites" component={ Favourites } />
+        <PersistGate loading={null} persistor={persistor}>
+          <Router>
+
+            <div>
+              <Header />
+              <div className="content">
+                <Error />
+                <Route exact path="/" component={Films} />
+                <Route exact path="/characters/:id/" component={Character} />
+                <Route exact path="/films/:id/" component={Film} />
+                <Route path="/favourites" component={Favourites} />
+              </div>
             </div>
-          </div>
-      
-        </Router>
-      </PersistGate>
+
+          </Router>
+        </PersistGate>
       </Provider>
     )
   }

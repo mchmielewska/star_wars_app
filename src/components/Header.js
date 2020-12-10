@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 class Header extends Component {
     render() {
         return (
-            
+
             <div className="nav center-align">
                 <h2>Star Wars</h2>
                 <ul className="nav-list">

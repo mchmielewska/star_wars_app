@@ -13,7 +13,7 @@ const migrations = {
     // migration clear out device state
     return {
       ...state,
-      device: undefined   
+      device: undefined
     }
   },
   1: (state) => {
@@ -25,24 +25,24 @@ const migrations = {
 }
 
 const persistConfig = {
-    key: 'root',
-    storage: storage,
-    version: 1,
-    debug: true,  
-    stateReconciler: autoMergeLevel2,
-    migrate: createMigrate(migrations, { debug: false }),
-  }
+  key: 'root',
+  storage: storage,
+  version: 1,
+  debug: true,
+  stateReconciler: autoMergeLevel2,
+  migrate: createMigrate(migrations, { debug: false }),
+}
 
 const persistedReducer = persistReducer(persistConfig, reducer)
 
 const inititalState = {};
 
 const store = createStore(
-                persistedReducer, 
-                inititalState,
-                compose(
-                        applyMiddleware(thunk), 
-                        window.__REDUX_DEVTOOLS_EXTENSION__&& window.__REDUX_DEVTOOLS_EXTENSION__()),);
+  persistedReducer,
+  inititalState,
+  compose(
+    applyMiddleware(thunk),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
 
 let persistor = persistStore(store);
 

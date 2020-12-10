@@ -1,16 +1,14 @@
 import axios from 'axios';
-
-const GET_CHARACTERS = 'GET_CHARACTERS';
-const GET_CHARACTER = 'GET_CHARACTER';
+import { GET_CHARACTER, GET_CHARACTERS, GET_ERRORS } from '../types'
 
 export const getCharactersList = () => dispatch => {
     let pageSize = 10;
 
-    axios.get("https://swapi.dev/api/people/?page=1").then( res => {
+    axios.get("https://swapi.dev/api/people/?page=1").then(res => {
         const totalCount = res.data.count
         let allUrls = []
         let allCharacterData = res.data.results;
-        for (let currentPage = 2; currentPage <= Math.ceil(totalCount/pageSize); currentPage++) {
+        for (let currentPage = 2; currentPage <= Math.ceil(totalCount / pageSize); currentPage++) {
             allUrls.push(axios.get(`https://swapi.dev/api/people/?page=${currentPage}`))
         }
 
@@ -24,7 +22,12 @@ export const getCharactersList = () => dispatch => {
                 payload: allCharacterData
             })
         })
-    })
+    }).catch(err => {
+        dispatch({
+            type: GET_ERRORS,
+            error: err
+        });
+    });
 }
 
 export const getCharacter = (id) => dispatch => {
@@ -36,5 +39,10 @@ export const getCharacter = (id) => dispatch => {
                     payload: res.data
                 })
             }
-        )
+        ).catch(err => {
+            dispatch({
+                type: GET_ERRORS,
+                error: err
+            });
+        });
 }

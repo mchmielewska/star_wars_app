@@ -14,7 +14,7 @@ class Character extends Component {
             if (favourites.characters.includes(character)) {
                 return (
                     <button className="like" onClick={(e) => handleUnlike(e, character)}><i className="material-icons">favorite</i></button>
-                )        
+                )
             } else {
                 return (
                     <button className="unlike" onClick={(e) => handleLike(e, character)}><i className="material-icons">favorite_border</i></button>
@@ -40,23 +40,23 @@ class Character extends Component {
 
 
         const characterData = character !== undefined ? (
-                <div className="container">
-                    <button className="button" onClick={() => { this.props.history.goBack()}}><i className="material-icons">keyboard_arrow_left</i>Back</button>
-                    <h3>{ character.name } { actionButton(character) }</h3>
-                    <img className="poster" alt={character.name} src={ imgSrc(character) } ></img>
-                    <div className="details">
-                        <p><span className="details-name">birth year:</span> { character.birth_year }</p>
-                        <p><span className="details-name">eye color:</span> { character.eye_color }</p>
-                        <p><span className="details-name">gender:</span> { character.gender }</p>
-                        <p><span className="details-name">hair color:</span> { character.hair_color }</p>
-                        <p><span className="details-name">skin color:</span> { character.skin_color }</p>
-                    </div>
+            <div className="container">
+                <button className="button" onClick={() => { this.props.history.goBack() }}><i className="material-icons">keyboard_arrow_left</i>Back</button>
+                <h3>{character.name} {actionButton(character)}</h3>
+                <img className="poster" alt={character.name} src={imgSrc(character)} ></img>
+                <div className="details">
+                    <p><span className="details-name">birth year:</span> {character.birth_year}</p>
+                    <p><span className="details-name">eye color:</span> {character.eye_color}</p>
+                    <p><span className="details-name">gender:</span> {character.gender}</p>
+                    <p><span className="details-name">hair color:</span> {character.hair_color}</p>
+                    <p><span className="details-name">skin color:</span> {character.skin_color}</p>
                 </div>
-            ) : ( <div className="container-loading">Loading data...</div>)
+            </div>
+        ) : (<div className="container-loading">Character not found</div>)
 
-        return ( 
+        return (
             <div>
-                { characterData }
+                { characterData}
             </div>
         )
 
@@ -65,7 +65,7 @@ class Character extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     let id = ownProps.match.params.id;
-    
+
     if (state.characters.length === 0) {
         getCharacter(id);
         return {
@@ -74,7 +74,7 @@ const mapStateToProps = (state, ownProps) => {
         }
     } else {
         return {
-            currentCharacter: state.characters.find(character => (((character.url).substr(character.url.length - 3)).replace('/','')).replace('/','') === id),
+            currentCharacter: state.characters.find(character => (((character.url).substr(character.url.length - 3)).replace('/', '')).replace('/', '') === id),
             favourites: state.favourites
         }
     }

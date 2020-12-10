@@ -1,16 +1,13 @@
-const LIKE_CHARACTER = 'LIKE_CHARACTER'
-const LIKE_FILM = 'LIKE_FILM'
-const UNLIKE_FILM = 'UNLIKE_FILM'
-const UNLIKE_CHARACTER = 'UNLIKE_CHARACTER'
+import { LIKE_CHARACTER, LIKE_FILM, UNLIKE_FILM, UNLIKE_CHARACTER } from '../types';
 
 const initialState = {
     characters: [],
     films: []
 }
 
-export default function (state = initialState, action ) {
-    switch(action.type) {
-       case LIKE_CHARACTER:
+export default function (state = initialState, action) {
+    switch (action.type) {
+        case LIKE_CHARACTER:
             return {
                 ...state,
                 characters: [...state.characters, action.payload]
@@ -36,8 +33,8 @@ export default function (state = initialState, action ) {
             return {
                 ...state,
                 characters: filteredCharacters
-            }       
-       default:
-           return state
+            }
+        default:
+            return state
     }
 }
