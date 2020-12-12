@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 export function charactersLinks(characters, charactersNames) {
-    if (!characters) {
+    if (!characters || charactersNames.length === 0) {
         return (
             <div>Loading data...</div>
         )

@@ -1,15 +1,6 @@
 import moxios from 'moxios';
-import { getFilmsList } from '../actions/filmsActions';
-import thunk from 'redux-thunk'
-import configureMockStore from 'redux-mock-store';
-
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
-const makeMockStore = (state = {}) => {
-    return mockStore({
-        ...state
-    });
-};
+import { getFilmList } from '../actions/filmsActions';
+import { makeMockStore } from '../utils/testStore';
 
 describe('Get films action', () => {
 
@@ -21,7 +12,7 @@ describe('Get films action', () => {
         moxios.uninstall();
     });
 
-    test('Succesful API request calls getFilmsList action', () => {
+    test('Succesful API request calls getFilmList action', () => {
 
         const films = [
             {
@@ -51,7 +42,7 @@ describe('Get films action', () => {
                 response: { films } });
             });
 
-        return store.dispatch(getFilmsList())
+        return store.dispatch(getFilmList())
         .then(() => {
             expect(store.getActions()).toEqual(expectedAction);
         })

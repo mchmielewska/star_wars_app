@@ -4,7 +4,6 @@ import { unlikeCharacter, unlikeFilm } from '../actions/favouritesActions';
 import { Link } from 'react-router-dom';
 class Favourites extends Component {
     render() {
-
         const favouritedFilms = this.props.favourites.films;
         const favouritedCharacters = this.props.favourites.characters;
 
@@ -13,7 +12,7 @@ class Favourites extends Component {
             this.props.unlikeFilm(film, favouritedFilms);
         }
 
-        const handleUnlikeCharacter = (e, character, allCharacters) => {
+        const handleUnlikeCharacter = (e, character, favouritedCharacters) => {
             e.preventDefault();
             this.props.unlikeCharacter(character, favouritedCharacters);
         }
@@ -23,9 +22,9 @@ class Favourites extends Component {
                 return
             } else {
                 const filmsLinks = films.map(film => {
-                    let charUrl = film.url;
-                    let tmp = charUrl.substr(charUrl.length - 2);
-                    let id = (tmp.replace('/', ''))
+                    const charUrl = film.url;
+                    const splitUrl = charUrl.split("/");
+                    const id = splitUrl[splitUrl.length - 2]; // for example "films/12/" ==> ["films", "12", ""] ==> "12"
                     return (
                         <li key={film.title}>
                             <Link to={{ pathname: `/films/${id}` }}> {film.title} </Link>
@@ -37,9 +36,6 @@ class Favourites extends Component {
                 return filmsLinks;
             }
         }
-
-        console.log('Favs', this.props.favourites)
-
         const films = filmsLinks(this.props.favourites.films)
 
         function charactersLinks(characters) {
@@ -47,10 +43,9 @@ class Favourites extends Component {
                 return
             } else {
                 const charactersLinks = characters.map(character => {
-                    let charUrl = character.url;
-                    let tmp = (charUrl.substr(charUrl.length - 3)).replace('/', '');
-                    let id = (tmp.replace('/', ''))
-                    console.log(id)
+                    const charUrl = character.url;
+                    const splitUrl = charUrl.split("/");
+                    const id = splitUrl[splitUrl.length - 2];
                     return (
                         <li key={character.name}>
                             <Link to={{ pathname: `/characters/${id}` }}> {character.name} </Link>

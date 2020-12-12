@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getCharacter } from '../actions/charactersActions';
-import { likeCharacter, unlikeCharacter, unlikeFilm } from '../actions/favouritesActions';
+import { likeCharacter, unlikeCharacter } from '../actions/favouritesActions';
 import { imgSourceCharacters } from '../utils/images'
 
 class Character extends Component {
@@ -34,7 +33,7 @@ class Character extends Component {
         }
 
         const characterImage = (character) => {
-            if (character.length === 0) {
+            if (character === undefined) {
                 return (
                     <p>Loading image...</p>
                 )
@@ -48,7 +47,7 @@ class Character extends Component {
              }
         }
 
-
+        const loadingMessage = this.props.charactersLoaded ? "Character not found" : "Loading character...";
         const characterData = character !== undefined ? (
             <div className="container">
                 <button className="button" onClick={() => { this.props.history.goBack() }}><i className="material-icons">keyboard_arrow_left</i>Back</button>
@@ -62,7 +61,7 @@ class Character extends Component {
                     <p><span className="details-name">skin color:</span> {character.skin_color}</p>
                 </div>
             </div>
-        ) : (<div className="container-loading">Character not found</div>)
+        ) : (<div className="container-loading">{loadingMessage}</div>)
 
         return (
             <div>
@@ -74,18 +73,18 @@ class Character extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    let id = ownProps.match.params.id;
-    if (state.characters.length === 0) {
-        getCharacter(id);
-        return {
-            currentCharacter: state.characters,
-            favourites: state.favourites
-        }
-    } else {
-        return {
-            currentCharacter: state.characters.find(character => (((character.url).substr(character.url.length - 3)).replace('/', '')).replace('/', '') === id),
-            favourites: state.favourites
-        }
+    let currentCharacter, charactersLoaded = false; 
+
+    if (state.characters && state.characters.length > 0) {
+        const id = ownProps.match.params.id;
+        charactersLoaded = true;
+        currentCharacter = state.characters.find(character => (character.url.split("/").slice(-2)[0] === id))
+    }
+
+    return {
+        currentCharacter: currentCharacter,
+        favourites: state.favourites,
+        charactersLoaded: charactersLoaded
     }
 }
 

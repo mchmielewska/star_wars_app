@@ -15,19 +15,19 @@ export const likeFilm = (item) => dispatch => {
 }
 
 export const unlikeFilm = (item, all) => dispatch => {
-    const title = item.title;
-    let filteredFilms = all.filter(e => e.title !== title)
+    const unlikedTitle = item.title;
+    const likedFilms = all.filter(e => e.title !== unlikedTitle)
     dispatch({
         type: UNLIKE_FILM,
-        payload: filteredFilms
+        payload: likedFilms
     })
 }
 
 export const unlikeCharacter = (item, all) => dispatch => {
-    const name = item.name;
-    let filteredCharacters = all.filter(e => e.name !== name)
+    const unlikedName = item.name;
+    const likedCharacters = all.filter(e => e.name !== unlikedName)
     dispatch({
         type: UNLIKE_CHARACTER,
-        payload: filteredCharacters
+        payload: likedCharacters
     })
 }

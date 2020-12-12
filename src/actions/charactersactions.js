@@ -1,21 +1,25 @@
 import axios from 'axios';
-import { GET_CHARACTER, GET_CHARACTERS, GET_ERRORS } from './types'
+import { GET_CHARACTERS, GET_ERRORS } from './types'
 
-export const getCharactersList = () => dispatch => {
-    let pageSize = 10;
+export const getCharacterList = () => dispatch => {
+    console.log("characterList")
+    const pageSize = 10;
 
+    // first fetch page 1 to get the number of characters...
     axios.get("https://swapi.dev/api/people/?page=1").then(res => {
         const totalCount = res.data.count
         let allUrls = []
         let allCharacterData = res.data.results;
+
+        // ...then check how many pages we have to fetch to get all data
         for (let currentPage = 2; currentPage <= Math.ceil(totalCount / pageSize); currentPage++) {
             allUrls.push(axios.get(`https://swapi.dev/api/people/?page=${currentPage}`))
         }
 
         axios.all(allUrls).then(results => {
-            let tmp = results.map(payload => { return payload.data.results })
-            let flat = tmp.flat()
-            allCharacterData = allCharacterData.concat(flat);
+            const localRequestCharacters = results.map(payload => { return payload.data.results })
+            const characterArray = localRequestCharacters.flat()
+            allCharacterData = allCharacterData.concat(characterArray);
 
             dispatch({
                 type: GET_CHARACTERS,
@@ -28,21 +32,4 @@ export const getCharactersList = () => dispatch => {
             error: err
         });
     });
-}
-
-export const getCharacter = (id) => dispatch => {
-    axios.get(`https://swapi.dev/api/people/${id}`)
-        .then(
-            res => {
-                dispatch({
-                    type: GET_CHARACTER,
-                    payload: res.data
-                })
-            }
-        ).catch(err => {
-            dispatch({
-                type: GET_ERRORS,
-                error: err
-            });
-        });
 }

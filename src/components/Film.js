@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import { imgSource } from '../utils/images'
 import { connect } from 'react-redux';
-import { getFilm, getFilmsList } from '../actions/filmsActions';
-import { getCharactersList } from '../actions/charactersActions';
 import { likeFilm, unlikeFilm } from '../actions/favouritesActions';
 import { charactersLinks } from '../utils/charactersLinks';
 
 class Film extends Component {
-
     render() {
-
         const favourites = this.props.favourites;
         const favouritedFilms = favourites.films;
 
         const actionButton = film => {
-            if (favourites.films.includes(film)) {
+            const favouriteFilmTitles = favourites.films.map( (film) => film.title )
+            if (favouriteFilmTitles.includes(film.title)) {
                 return (
                     <button className="like" onClick={(e) => handleUnlike(e, film, favouritedFilms)}><i className="material-icons">favorite</i></button>
                 )
@@ -39,17 +36,16 @@ class Film extends Component {
         const allCharacters = this.props.characters;
 
         const charactersNames = allCharacters.map(character => {
-            let charUrl = character.url;
-            let tmp = charUrl.substr(charUrl.length - 3);
-            let id = (tmp.replace('/', '')).replace('/', '')
+            const charUrl = character.url;
+            const splitUrl = charUrl.split("/");
+            const id = splitUrl[splitUrl.length - 2]; 
 
             return {
                 id: id,
                 name: character.name,
                 url: character.url
             }
-        }
-        )
+        })
 
         const imgSrc = (film) => {
             const imgElement = imgSource.find(el => film.episode_id === el.episodeId);
@@ -57,7 +53,9 @@ class Film extends Component {
             return src
         }
 
-        const filmData = film.length !== 0 ? (
+        const loadingMessage = this.props.filmsLoaded ? "Film not found" : "Loading film...";
+
+        const filmData = film !== undefined ? (
             <div className="container">
                 <h4>{film.title} {actionButton(film)}</h4>
 
@@ -75,7 +73,7 @@ class Film extends Component {
             </div>
         ) : (
                 <div className="container-loading">
-                    Loading data...
+                    { loadingMessage }
                 </div>
             )
 
@@ -88,32 +86,26 @@ class Film extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    let id = ownProps.match.params.id;
+    const id = ownProps.match.params.id;
+    let currentFilm, filmsLoaded = false;
 
-    if (state.films.length === 0) {
-        getFilm(id);
-        getFilmsList();
-        getCharactersList();
-        return {
-            currentFilm: state.films,
-            favourites: state.favourites,
-            characters: state.characters,
-            films: state.films
-        }
-    } else {
-        return {
-            currentFilm: state.films.find(film => (((film.url).substr(film.url.length - 3)).replace('/', '')).replace('/', '') === id),
-            characters: state.characters,
-            favourites: state.favourites,
-            films: state.films
-        }
+    if (state.films && state.films.length > 0) {
+        filmsLoaded = true
+        currentFilm = state.films.find(film => (film.url.split("/").slice(-2)[0] === id))
+    }
+
+    return {
+        currentFilm: currentFilm,
+        favourites: state.favourites,
+        characters: state.characters,
+        films: state.films,
+        filmsLoaded: filmsLoaded
     }
 }
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getFilm: (id) => dispatch(getFilm(id)),
         likeFilm: (film) => dispatch(likeFilm(film)),
         unlikeFilm: (film, favouritedFilms) => dispatch(unlikeFilm(film, favouritedFilms))
     }

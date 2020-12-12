@@ -41,27 +41,6 @@ describe('Characters Reducer', () => {
             });
             expect(newState).toEqual(characters)
         });
-
-        it('Should return new state if receiving type GET_CHARACTER', () => {
-            const character =
-                {
-                    "name": "TestName",
-                    "height": "123",
-                    "mass": "123",
-                    "hair_color": "test",
-                    "skin_color": "test",
-                    "eye_color": "test",
-                    "birth_year": "test",
-                    "gender": "test",
-                    "url": "test"
-                };
-            const newState = charactersReducer(undefined, {
-                type: types.GET_CHARACTER,
-                payload: character
-            });
-            expect(newState).toEqual(character)
-        })
-
     })
 
 })

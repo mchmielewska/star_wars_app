@@ -1,7 +1,5 @@
 export const GET_CHARACTERS = 'GET_CHARACTERS';
-export const GET_CHARACTER = 'GET_CHARACTER';
 export const GET_FILMS = 'GET_FILMS';
-export const GET_FILM = 'GET_FILM';
 export const GET_ERRORS = 'GET_ERROR';
 export const LIKE_CHARACTER = 'LIKE_CHARACTER';
 export const UNLIKE_CHARACTER = 'UNLIKE_CHARACTER';

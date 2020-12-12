@@ -7,6 +7,7 @@ import { persistReducer } from 'redux-persist'
 import { createMigrate } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import { withRouter } from 'react-router-dom';
 
 const migrations = {
   0: (state) => {
@@ -35,11 +36,11 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, reducer)
 
-const inititalState = {};
+const initialState = {};
 
 const store = createStore(
   persistedReducer,
-  inititalState,
+  initialState,
   compose(
     applyMiddleware(thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));

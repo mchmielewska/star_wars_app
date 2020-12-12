@@ -39,23 +39,6 @@ describe('Films Reducer', () => {
 
             expect(newState).toEqual(films.results)
         });
-
-        it('Should return new state if receiving type GET_FILM', () => {
-            const film =
-                    {
-                        "title": "Test Title 2", 
-                        "episode_id": 1, 
-                        "director": "Test test", 
-                        "producer": "Test producer", 
-                        "release_date": "1980-05-17", 
-                    };
-            const newState = filmsReducer(undefined, {
-                type: types.GET_FILM,
-                payload: film
-            });
-            expect(newState).toEqual(film)
-        })
-
     })
 
 })

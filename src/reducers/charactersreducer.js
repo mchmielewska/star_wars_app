@@ -6,8 +6,6 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case GET_CHARACTERS:
             return action.payload
-        case GET_CHARACTER:
-            return action.payload
         default:
             return state
     }

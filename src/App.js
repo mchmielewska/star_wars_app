@@ -5,28 +5,36 @@ import { store, persistor } from './store'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import Header from './components/Header'
-import Films from './components/Films';
+import FilmsList from './components/FilmsList';
 import Film from './components/Film';
 import Error from './components/Error'
 import Character from './components/Character'
-import { getFilmsList } from './actions/filmsActions';
-import { getCharactersList } from './actions/charactersActions';
+import { getFilmList } from './actions/filmsActions';
+import { getCharacterList } from './actions/charactersActions';
 import Favourites from './components/Favourites';
 class App extends Component {
 
+
+  loadData = () => {
+    const localState = store.getState()
+    if (localState.films.length === 0 || localState.characters.length === 0) {
+      store.dispatch(getFilmList());
+      store.dispatch(getCharacterList());
+    }
+  }
+
   render() {
-    store.dispatch(getFilmsList());
-    store.dispatch(getCharactersList());
     return (
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
+        <PersistGate loading={null} persistor={persistor} onBeforeLift={this.loadData}>
           <Router>
-
-            <div>
+            
+            <div className="app-component">
               <Header />
               <div className="content">
                 <Error />
-                <Route exact path="/" component={Films} />
+                <Route exact path="/" component={FilmsList} />
+                <Route exact path="/films/" component={FilmsList} />
                 <Route exact path="/characters/:id/" component={Character} />
                 <Route exact path="/films/:id/" component={Film} />
                 <Route path="/favourites" component={Favourites} />
