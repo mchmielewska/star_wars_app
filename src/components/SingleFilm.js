@@ -11,9 +11,8 @@ class SingleFilm extends Component {
         const splitUrl = url.split("/");
         const id = splitUrl[splitUrl.length - 2]; 
 
-
         return (
-            <div>
+            <div className="single-film-component">
                 <Link className="film-link" style={{
                     background: `url(${imgSource.find(el => episode_id === el.episodeId).img}) no-repeat 25% 25%`,
                 }}

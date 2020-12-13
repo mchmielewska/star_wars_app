@@ -8,10 +8,7 @@ export default function (state = initialState, action) {
     case GET_ERRORS:
       return {
         ...state,
-        error: {
-          errorMessage: action.error,
-          ...action.payload.response.data,
-        },
+        error: action.error,
       }
     default:
       return {

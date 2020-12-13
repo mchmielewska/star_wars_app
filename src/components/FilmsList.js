@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SingleFilm from './SingleFilm';
 
-class FilmsList extends Component {
+export class FilmsList extends Component {
 
     render() {
 
         const films = this.props.films;
+        const loadingMessage = this.props.filmsLoaded ? "Films not found" : "Loading films...";
 
         function filmsLinks(films) {
             if (films === undefined || films.length === 0) {
                 return (
-                    <div className="container-loading">Loading data...</div>
+                    <div className="container-loading no-data">{ loadingMessage }</div>
                 )
             } else {
                 const filmsLinks = films.map(film => {
@@ -27,7 +28,7 @@ class FilmsList extends Component {
             }
 
         return (
-                <div className="center-align">
+                <div className="center-align films-component">
                     <div className="films-list">
                         {filmsLinks(films)}
                     </div>
@@ -37,7 +38,17 @@ class FilmsList extends Component {
 }
 
 
-const mapStateToProps = ({ films }) => ({ films })
+const mapStateToProps = (state) => {
+    let filmsLoaded = false, films;
+    if (state.films && state.films.length > 0) {
+        filmsLoaded = true;
+        films = state.films;
+    }
 
+    return {
+        films,
+        filmsLoaded
+    }
+}
 
 export default connect(mapStateToProps)(FilmsList);
