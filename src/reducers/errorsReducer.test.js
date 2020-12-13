@@ -9,7 +9,7 @@ describe('Errors Reducer', () => {
             error: null
         });
     });
-
+    
     describe('Errors reducer - checking types', () => {
 
         it('Should return new state if receiving type GET_ERRORS', () => {

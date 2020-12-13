@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { unlikeCharacter, unlikeFilm } from '../actions/favouritesActions';
 import { Link } from 'react-router-dom';
-class Favourites extends Component {
+export class Favourites extends Component {
     render() {
-        const favouritedFilms = this.props.favourites.films;
-        const favouritedCharacters = this.props.favourites.characters;
+        const favouritedFilms = this.props.favourites ? this.props.favourites.films : [];
+        const favouritedCharacters = this.props.favourites ? this.props.favourites.characters : [];
 
         const handleUnlikeFilm = (e, film, favouritedFilms) => {
             e.preventDefault();
@@ -26,7 +26,7 @@ class Favourites extends Component {
                     const splitUrl = charUrl.split("/");
                     const id = splitUrl[splitUrl.length - 2]; // for example "films/12/" ==> ["films", "12", ""] ==> "12"
                     return (
-                        <li key={film.title}>
+                        <li key={film.title} className="favourited-film-item">
                             <Link to={{ pathname: `/films/${id}` }}> {film.title} </Link>
                             <button className="like" onClick={(e) => handleUnlikeFilm(e, film, favouritedFilms)}><i className="material-icons">delete</i></button>
                         </li>
@@ -36,7 +36,7 @@ class Favourites extends Component {
                 return filmsLinks;
             }
         }
-        const films = filmsLinks(this.props.favourites.films)
+        const films = filmsLinks(favouritedFilms)
 
         function charactersLinks(characters) {
             if (characters === undefined || characters.length === 0) {
@@ -47,7 +47,7 @@ class Favourites extends Component {
                     const splitUrl = charUrl.split("/");
                     const id = splitUrl[splitUrl.length - 2];
                     return (
-                        <li key={character.name}>
+                        <li key={character.name} className="favourited-character-item">
                             <Link to={{ pathname: `/characters/${id}` }}> {character.name} </Link>
                             <button className="like" onClick={(e) => handleUnlikeCharacter(e, character, favouritedCharacters)}><i className="material-icons">delete</i></button>
                         </li>
@@ -58,14 +58,14 @@ class Favourites extends Component {
             }
         }
 
-        const characters = charactersLinks(this.props.favourites.characters)
+        const characters = charactersLinks(favouritedCharacters)
 
         return (
-            <div className="favourites container">
+            <div className="favourites container favourites-component">
                 <h4>Films:</h4>
-                <ul>{films}</ul>
+                <ul className="favourited-films">{films}</ul>
                 <h4>Characters:</h4>
-                <ul>{characters}</ul>
+                <ul className="favourited-characters">{characters}</ul>
             </div>
         )
     }

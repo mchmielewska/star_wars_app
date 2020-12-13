@@ -12,8 +12,7 @@ import Character from './components/Character'
 import { getFilmList } from './actions/filmsActions';
 import { getCharacterList } from './actions/charactersActions';
 import Favourites from './components/Favourites';
-class App extends Component {
-
+export class App extends Component {
 
   loadData = () => {
     const localState = store.getState()

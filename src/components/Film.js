@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { likeFilm, unlikeFilm } from '../actions/favouritesActions';
 import { charactersLinks } from '../utils/charactersLinks';
 
-class Film extends Component {
+export class Film extends Component {
     render() {
         const favourites = this.props.favourites;
-        const favouritedFilms = favourites.films;
+        const favouritedFilms = favourites ? favourites.films : [];
 
         const actionButton = film => {
             const favouriteFilmTitles = favourites.films.map( (film) => film.title )
@@ -33,7 +33,8 @@ class Film extends Component {
         }
 
         const film = this.props.currentFilm;
-        const allCharacters = this.props.characters;
+
+        const allCharacters = this.props.characters ? this.props.characters : [];
 
         const charactersNames = allCharacters.map(character => {
             const charUrl = character.url;
@@ -56,7 +57,7 @@ class Film extends Component {
         const loadingMessage = this.props.filmsLoaded ? "Film not found" : "Loading film...";
 
         const filmData = film !== undefined ? (
-            <div className="container">
+            <div className="container film-data-component">
                 <h4>{film.title} {actionButton(film)}</h4>
 
                 <img className="poster" alt={film.title} src={imgSrc(film)} ></img>
@@ -72,13 +73,13 @@ class Film extends Component {
                 <button className="button grey" onClick={() => { this.props.history.goBack() }}><i className="material-icons">keyboard_arrow_left</i>Back</button>
             </div>
         ) : (
-                <div className="container-loading">
+                <div className="container-loading no-data">
                     { loadingMessage }
                 </div>
             )
 
         return (
-            <div>
+            <div className='film-component'>
                 { filmData }
             </div>
         )

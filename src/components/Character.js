@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import { likeCharacter, unlikeCharacter } from '../actions/favouritesActions';
 import { imgSourceCharacters } from '../utils/images'
 
-class Character extends Component {
+export class Character extends Component {
 
     render() {
         const character = this.props.currentCharacter;
         const favourites = this.props.favourites;
-        const favouritedCharacters = favourites.characters;
+
+        const favouritedCharacters = favourites ? favourites.characters : [];
 
         const actionButton = character => {
             if (favourites.characters.includes(character)) {
@@ -49,7 +50,7 @@ class Character extends Component {
 
         const loadingMessage = this.props.charactersLoaded ? "Character not found" : "Loading character...";
         const characterData = character !== undefined ? (
-            <div className="container">
+            <div className="container character-data-component">
                 <button className="button" onClick={() => { this.props.history.goBack() }}><i className="material-icons">keyboard_arrow_left</i>Back</button>
                 <h3>{character.name} {actionButton(character)}</h3>
                 { characterImage(character) }
@@ -61,10 +62,10 @@ class Character extends Component {
                     <p><span className="details-name">skin color:</span> {character.skin_color}</p>
                 </div>
             </div>
-        ) : (<div className="container-loading">{loadingMessage}</div>)
+        ) : (<div className="container-loading no-data">{loadingMessage}</div>)
 
         return (
-            <div>
+            <div className="character-component">
                 { characterData }
             </div>
         )

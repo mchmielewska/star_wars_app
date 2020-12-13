@@ -1,7 +1,11 @@
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
+import Enzyme from 'enzyme';
 import React from 'react';
 import { makeMockStore } from './utils/testStore';
-import App from './App';
+import { App } from './App';
+
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+Enzyme.configure({ adapter: new Adapter() });
 
 const initialState = {
     films: [
@@ -33,14 +37,16 @@ jest.mock('./store', () => ({
 
 describe('App component', () => {
 
-    let component;
-    beforeEach(() => {
-        component = shallow(<App {...initialState}/>);
-    });
+    describe('Component not connected to the state', () => {
+        let component;
+        beforeEach(() => {
+            component = shallow(<App {...initialState}/>);
+        });
 
-    it('Should render without errors', () => {
-        const div = component.find('.app-component');
-        expect(div.length).toBe(1);
-    })
+        it('Should render without errors', () => {
+            const div = component.find('.app-component');
+            expect(div.length).toBe(1);
+        })
+    });
 
 });

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-class Error extends Component {
+export class Error extends Component {
 
     render() {
-        const errors = this.props.errors;
-        const errorMessage = errors.error ? (
+        const errorMessage = this.props.errors && this.props.errors.error ? (
             <div id="error">
                 Error fetching data, please reload the page.
             </div>
@@ -15,7 +14,7 @@ class Error extends Component {
 
             )
         return (
-            <div>
+            <div className="error-component">
                 { errorMessage}
             </div>
         )
