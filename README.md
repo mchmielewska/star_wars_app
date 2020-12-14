@@ -26,6 +26,10 @@ Project is created with:
 
 To run project locally, in the project directory run:
 
+### `npm install`
+
+firstly, to install all the dependencies for the app.
+
 ### `npm start`
 
 to run the app in the development mode.
