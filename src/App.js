@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store, persistor } from './store'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -34,6 +34,9 @@ export class App extends Component {
                 <Error />
                 <Route exact path="/" component={FilmsList} />
                 <Route exact path="/films/" component={FilmsList} />
+                <Route exact path="/characters">
+                  <Redirect to="/" />
+                </Route>
                 <Route exact path="/characters/:id/" component={Character} />
                 <Route exact path="/films/:id/" component={Film} />
                 <Route path="/favourites" component={Favourites} />

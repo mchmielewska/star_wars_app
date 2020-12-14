@@ -2,7 +2,6 @@ import axios from 'axios';
 import { GET_CHARACTERS, GET_ERRORS } from './types'
 
 export const getCharacterList = () => dispatch => {
-    console.log("characterList")
     const pageSize = 10;
 
     // first fetch page 1 to get the number of characters...
